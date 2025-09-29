@@ -1,0 +1,29 @@
+# Environment and secrets
+.env
+.env.*
+!*.example
+*.secret
+*.secrets
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Java/Gradle
+example/spring-api/.env
+example/spring-api/.env.*
+example/spring-api/build/
+example/spring-api/.gradle/
+
+# Local data
+example/spring-api/data/
+files/*.json
+dataset/ml-latest-small/*.csv
+
+/dataset/ml-latest-small/

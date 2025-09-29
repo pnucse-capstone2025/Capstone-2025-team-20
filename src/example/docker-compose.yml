@@ -1,0 +1,44 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: capstone-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./static:/usr/share/nginx/html/static
+    restart: unless-stopped
+    depends_on:
+      - spring-api
+      - py-reco
+
+  spring-api:
+    build: ./spring-api
+    container_name: spring-api
+    env_file:
+      - ../.env
+    environment:
+      - JWT_SECRET=VGhpcy1pcy1hLXN1cGVyLXNlY3JldC1zZWVkLWF0LWxlYXN0LTMyLWNoYXJzLWxvbmc=
+      - JWT_TTL_SECONDS=900
+      - PY_RECO_BASE=http://py-reco:8000
+      - APP_DATASET_DIR=/data/dataset
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    volumes:
+      - ./spring-api/data:/data
+      - ../dataset:/data/dataset:rw
+
+  py-reco:
+    build:
+      context: ..
+      dockerfile: example/spring-api/Dockerfile.pyreco
+    container_name: py-reco
+    env_file:
+      - ../.env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - APP_DATASET_DIR=/data/dataset
+    restart: unless-stopped
+    volumes:
+      - ../dataset:/data/dataset:rw

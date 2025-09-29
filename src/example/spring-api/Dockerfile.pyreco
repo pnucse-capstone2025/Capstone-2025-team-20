@@ -1,0 +1,34 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 시스템 패키지: 과학 라이브러리 및 OpenMP/BLAS 런타임
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc gfortran \
+    libopenblas-dev liblapack-dev \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# 소스 복사
+COPY dataset /app/dataset
+
+# 파이썬 의존성 (휠 사용 선호 + 버전 고정)
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir --prefer-binary \
+      fastapi==0.114.0 \
+      uvicorn[standard]==0.30.0 \
+      pandas==2.2.2 \
+      numpy==1.26.4 \
+      scipy==1.11.4 \
+      pymysql==1.1.0 \
+      scikit-learn==1.4.2
+
+# ml-latest-small 폴더를 작업 디렉토리에 심볼릭 링크 생성
+RUN ln -s /app/dataset/ml-latest-small /app/ml-latest-small
+
+EXPOSE 8000
+
+CMD ["python", "/app/dataset/service.py"]
+
+
