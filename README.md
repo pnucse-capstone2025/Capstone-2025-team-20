@@ -83,6 +83,8 @@
 ### 3.1 시스템 구성도
 [Client] → [Nginx Reverse Proxy] → [Spring Boot API] → [MySQL DB]
 ↘ [Python 추천 모듈 (py-reco)]
+  <img width="1508" height="899" alt="image" src="https://github.com/user-attachments/assets/02762976-700d-4805-8bc5-5492fff3c81a" />
+
 
 ### 3.2 사용 기술
 - **Frontend:** React (Vite), Tailwind
@@ -126,12 +128,11 @@ root
 ### 5.1 설치절차 및 실행 방법
 ```bash
 # 프론트엔드 실행
-cd frontend
 npm install
 npm run dev
 
 # 백엔드 실행
-cd backend
+cd backen
 ./mvnw spring-boot:run
 
 # 추천 모듈 실행
@@ -140,6 +141,7 @@ python app.py
 
 # 전체 서비스 (Docker)
 docker-compose up -d
+```
 
 ### 5.2 오류 발생 시 해결 방법
 
@@ -183,20 +185,23 @@ docker-compose up -d
 ## 6. 소개 자료 및 시연 영상
 
 ### 6.1 프로젝트 소개 자료
-- [발표자료 PDF 첨부 예정]
+- [25전기 졸업과제 포스터_라피스블루.pdf](https://github.com/user-attachments/files/22612382/25._.pdf)
+- [25전기 캡스톤 발표 자료_라피스 블루.pdf](https://github.com/user-attachments/files/22612387/25._.pdf)
+
+
+
 
 ### 6.2 시연 영상
-- [시연 영상 링크] (추가 예정)
+- [https://www.youtube.com/watch?v=MDDWl_jW8FQ]https://www.youtube.com/watch?v=MDDWl_jW8FQ
 
 ---
 
 ## 7. 팀 구성
 
 ### 7.1 팀원별 소개 및 역할 분담
-- **박덕형:** 데이터 크롤링 및 정제
-- **박태준:** 추천 알고리즘 설계 및 구현
-- **안형찬:** 프론트엔드 개발, UI/UX 설계
-- **조준수:** 백엔드 및 DB 설계, 인프라 구성
+- **박덕형:** 벡엔드 개발, 추천 시스템 설계, 서버 구축, 데이터 베이스 구축
+- **박태준:** 벡엔드 개발, 추천 시스템 설계, 서버 구축, 데이터 베이스 구축
+- **안형찬:** 프론트엔드 개발, UI/UX 설계, 데이터 크롤링 및 정제
 
 ### 7.2 팀원 별 참여 후기
 - 협업을 통한 Git/GitHub 활용 능력 향상
