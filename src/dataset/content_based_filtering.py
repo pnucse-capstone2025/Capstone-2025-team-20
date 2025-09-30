@@ -20,13 +20,19 @@ def get_mysql_connection():
 
 
 class SalesBasedFiltering:
-	def __init__(self, movies_file='ml-latest-small/movies.csv'):
+	def __init__(self, movies_file=None):
 		"""
 		Sales 기반 콘텐츠 필터링 클래스 (데이터베이스 직접 연동)
 
 		Args:
-			movies_file: 영화 정보 파일 경로
+			movies_file: 영화 정보 파일 경로 (None이면 환경변수 기준)
 		"""
+		if movies_file is None:
+			dataset_dir = os.getenv("APP_DATASET_DIR")
+			if dataset_dir:
+				movies_file = os.path.join(dataset_dir, 'ml-latest-small', 'movies.csv')
+			else:
+				movies_file = 'ml-latest-small/movies.csv'
 		self.movies_file = movies_file
 		self.ratings_df = None
 		self.movies_df = None

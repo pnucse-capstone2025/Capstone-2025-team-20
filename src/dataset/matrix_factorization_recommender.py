@@ -424,9 +424,16 @@ def get_user_recommendations(user_id, n_recommendations=10, random_seed=42, dive
     # 랜덤 시드 설정
     np.random.seed(random_seed)
     
-    # 데이터 파일 경로 (절대경로화: Windows/작업 디렉토리 차이 대응)
+    # 데이터 파일 경로 (환경변수 우선, Windows/작업 디렉토리 차이 대응)
     import os
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    dataset_dir = os.getenv("APP_DATASET_DIR")
+    if dataset_dir:
+        # Docker 환경: 볼륨 마운트된 경로 사용
+        base_dir = dataset_dir
+    else:
+        # 로컬 환경: 파일 기준 경로 사용
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    
     ratings_file = os.path.join(base_dir, "ml-latest-small", "ratings.csv")
     movies_file = os.path.join(base_dir, "ml-latest-small", "movies.csv")
     

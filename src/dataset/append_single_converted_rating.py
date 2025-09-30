@@ -13,7 +13,7 @@ from bluray_rating_converter import BlurayRatingConverter
 
 
 def append_single_converted_rating(user_id: int, sales_id: int, ratings_csv_path: str) -> int:
-    converter = BlurayRatingConverter(verbose=True)  # verbose 모드로 변경하여 디버깅 정보 출력
+    converter = BlurayRatingConverter(verbose=False)  # verbose 모드로 변경하여 디버깅 정보 출력
     print(f"DEBUG: Converting review for user_id={user_id}, sales_id={sales_id}")
     
     try:

@@ -31,12 +31,12 @@ def get_env(name: str, default: str | None = None) -> str:
 def get_db_config() -> dict:
     # DB_* 환경 변수를 우선으로 하고, MYSQL_* 환경 변수도 지원
     return {
-        "host": os.getenv("DB_HOST") or os.getenv("MYSQL_HOST", "13.58.174.167"),
-        "port": int(os.getenv("DB_PORT") or os.getenv("MYSQL_PORT", "3306")),
-        "user": os.getenv("DB_USER") or os.getenv("MYSQL_USER", "admin"),
-        "password": os.getenv("DB_PASSWORD") or os.getenv("MYSQL_PASSWORD", "Admin1234@"),
-        "database": os.getenv("DB_NAME") or os.getenv("MYSQL_DATABASE", "lapisbluedb"),
-        "charset": os.getenv("DB_CHARSET") or os.getenv("MYSQL_CHARSET", "utf8mb4"),
+        "host": os.getenv("DB_HOST") or os.getenv("MYSQL_HOST") or "localhost",
+        "port": int(os.getenv("DB_PORT") or os.getenv("MYSQL_PORT") or "3306"),
+        "user": os.getenv("DB_USER") or os.getenv("MYSQL_USER") or "root",
+        "password": os.getenv("DB_PASSWORD") or os.getenv("MYSQL_PASSWORD") or "",
+        "database": os.getenv("DB_NAME") or os.getenv("MYSQL_DATABASE") or "lapisbluedb",
+        "charset": os.getenv("DB_CHARSET") or os.getenv("MYSQL_CHARSET") or "utf8mb4",
         "autocommit": True,
     }
 
