@@ -1,5 +1,4 @@
-import React, { Suspense, useState } from "react";
-import SearchBar from "../components/MenuBar";
+import React, { Suspense} from "react";
 import ProductList from "../components/ProductList";
 import { BasicBase, Footer, Spacer } from "../style/common.styled";
 import Loading from "../components/Loading";

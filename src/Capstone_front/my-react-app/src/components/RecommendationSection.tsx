@@ -44,7 +44,8 @@ const RecommendationContent: React.FC<{ userId: number; token: string }> = ({ us
       // 새로운 상품들을 기존 목록에 추가
       const newProducts = recommendations.results.slice(allProducts.length);
       const newProductsWithDetails = await Promise.all(
-        newProducts.map(async (item: any) => {
+        newProducts.map(async (item) => {
+          // item: RecommendedItem
           if (item.saleId) {
             try {
               const product = await getSale(item.saleId);

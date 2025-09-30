@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback, Suspense } from "react";
+import React, { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import * as S from "./Onboarding.styled";
 import { usePopularSales, useSearchSale } from "../hook/useSales";
 import { useNavigate, useLocation } from "react-router-dom";
 import OnboardingCard from "../components/OnboardingCard";
-import ProductCard from "../components/ProductCard";
 import { Footer, NoMenuBar } from "../style/common.styled";
 import { Product } from "../type/product";
 // import searchIcon from "../resource/img/search.svg";
@@ -17,8 +16,6 @@ const OnboardingContent = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const { token, me } = useAuth();
   const submitReviewMutation = useSubmitReview();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,26 +109,37 @@ const OnboardingContent = () => {
     setIsSubmitting(true);
 
     try {
-      // 선택한 각 영화에 대해 리뷰 생성 (5점으로 자동 설정)
-      const reviewPromises = selectedIds.map(salesId =>
-        submitReviewMutation.mutateAsync({
-          review: {
-            salesId: salesId,
-            rating: 5,
-            reviewComment: null
-          },
-          token: token
-        })
-      );
+      // 일부 백엔드 환경에서 동시 요청 시 트랜잭션/중복 처리 충돌이 발생할 수 있어 순차 처리로 보냅니다.
+      let successCount = 0;
+      const failed: number[] = [];
+      for (const salesId of selectedIds) {
+        try {
+          await submitReviewMutation.mutateAsync({
+            review: {
+              salesId,
+              rating: 5,
+              reviewComment: null,
+            },
+            token: token,
+          });
+          successCount += 1;
+          // 너무 빠른 연속 요청을 피하기 위해 짧은 지연을 둡니다(백엔드 보호용)
+          await new Promise((r) => setTimeout(r, 80));
+        } catch {
+          failed.push(salesId);
+        }
+      }
 
-      await Promise.all(reviewPromises);
-
-
-      showToast("선호 영화가 등록되었습니다! 이제 맞춤 추천을 받아보세요.", "success");
-      navigate("/static");
-    } catch (error) {
-
-      showToast("리뷰 생성 중 오류가 발생했습니다. 다시 시도해주세요.", "error");
+      if (failed.length === 0) {
+        showToast("선호 영화가 등록되었습니다! 이제 맞춤 추천을 받아보세요.", "success");
+      } else if (successCount > 0) {
+        showToast(`일부만 등록되었습니다. 성공: ${successCount}, 실패: ${failed.length}` as string, "warning");
+      } else {
+        showToast("리뷰 생성에 모두 실패했습니다. 다시 시도해주세요.", "error");
+      }
+      if (successCount > 0) {
+        navigate("/static");
+      }
     } finally {
       setIsSubmitting(false);
     }

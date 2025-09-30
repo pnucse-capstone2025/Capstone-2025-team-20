@@ -86,8 +86,8 @@ const MainTopBar = () => {
     try {
       await navigator.clipboard.writeText(email);
       showToast(`이메일 주소가 클립보드에 복사되었습니다`, 'success');
-    } catch (err) {
-      showToast(`버그 제보 이메일: ${email}`, 'info');
+    } catch (error) {
+      showToast(`${error}버그 제보 이메일: ${email}`, 'info');
     }
     setMenuOpen(false);
   };

@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { colors } from '../style/themes';
 
 const slideIn = keyframes`
   from {
@@ -12,7 +11,8 @@ const slideIn = keyframes`
   }
 `;
 
-const slideOut = keyframes`
+// 사용하지 않지만 보관할 애니메이션은 대문자 이름으로 선언해 경고 방지
+const SLIDE_OUT = keyframes`
   from {
     transform: translateX(0);
     opacity: 1;

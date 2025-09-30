@@ -5,12 +5,9 @@ import {
   Title,
   Input,
   Button,
-  EasyLogin,
-  EasyLoginButtons,
   BottomBox,
   BottomLink,
   LoginForm,
-  ErrorMessage,
 } from "./Login.styled";
 import { NoMenuBar } from "../style/common.styled";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -21,7 +18,6 @@ import { Logo } from "./Signup.styled";
 const Login = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useAuth();
@@ -36,22 +32,18 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage("");
     
     try {
       await auth.logIn(usernameOrEmail, password);
       
       toast.showSuccess("로그인에 성공했습니다!");
       
-      // 잠시 후 이전 페이지로 이동
       setTimeout(() => {
         const from = location.state?.from || "/static/";
         navigate(from, { replace: true });
       }, 1000);
     } catch (error) {
-      console.log("에러");
-      console.log((error as Error).message);
-      toast.showError("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+      toast.showError(`로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.${error}`);
     }
   };
 
@@ -82,11 +74,6 @@ const Login = () => {
             </Button>
           </LoginForm>
 
-
-          <EasyLogin>
-            간편하게 시작하기
-            <EasyLoginButtons></EasyLoginButtons>
-          </EasyLogin>
 
           <BottomBox>
             <BottomLink onClick={() => navigate("/static/Signup")}>

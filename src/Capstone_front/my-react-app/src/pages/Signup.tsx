@@ -8,7 +8,6 @@ import {
   Label,
   Input,
   Button,
-  Message,
   Logo,
 } from "./Signup.styled";
 import { useNavigate } from "react-router-dom";
@@ -19,15 +18,12 @@ const Signup: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
   const navigate = useNavigate();
   const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage("");
-    setMessageType("");
+
 
     try {
       const response = await axios.post("/api/signup", {
@@ -42,9 +38,10 @@ const Signup: React.FC = () => {
       setTimeout(() => {
         navigate("/static/Login");
       }, 2000);
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        toast.showError(`에러: ${error.response.data}`);
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: unknown } } | undefined;
+      if (error?.response?.data) {
+        toast.showError(`에러: ${String(error.response.data)}`);
       } else {
         toast.showError("회원가입 중 오류가 발생했습니다.");
       }

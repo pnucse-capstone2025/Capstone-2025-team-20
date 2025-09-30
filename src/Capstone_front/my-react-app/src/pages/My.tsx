@@ -37,8 +37,6 @@ const My = () => {
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   
-  // me와 token이 있을 때만 useUserReviews 호출
-  const shouldFetchReviews = !!(me?.userId && token);
   const { data: userReviews, isLoading: reviewsLoading } = useUserReviews(
     me?.userId || 0, 
     token || ""

@@ -76,6 +76,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
   if (context === undefined) {
@@ -83,5 +84,7 @@ export const useToast = (): ToastContextType => {
   }
   return context;
 };
+
+export {};
 
 

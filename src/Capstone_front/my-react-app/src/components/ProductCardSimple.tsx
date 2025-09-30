@@ -34,7 +34,7 @@ export default function ProuductCardSimple({ product, recommendReason = null }: 
             <S.Qualty> 해상도 : {product.quality}</S.Qualty>
         </S.PriceBox>
         {product.isLimitedEdition && (
-          <S.OriginalPrice>한정판!</S.OriginalPrice>
+          <S.Limited>한정판!</S.Limited>
         )}
         <S.Mall>{product.siteName}</S.Mall>
       </S.Info>

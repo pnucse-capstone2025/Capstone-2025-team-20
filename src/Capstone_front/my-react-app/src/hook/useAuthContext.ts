@@ -12,6 +12,17 @@ export function useAuthProvider() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 사용자 정보 가져오기
+  const fetchUserInfo = useCallback(async (token: string) => {
+    try {
+      const userInfo = await getMe(token);
+      setMe(userInfo);
+    } catch (error) {
+      console.error('사용자 정보 가져오기 실패:', error);
+      setMe(null);
+    }
+  }, []);
+
   // localStorage에서 초기값 불러오기
   useEffect(() => {
     const saved = localStorage.getItem(USER);
@@ -27,18 +38,7 @@ export function useAuthProvider() {
         localStorage.removeItem(USER);
       }
     }
-  }, []);
-
-  // 사용자 정보 가져오기
-  const fetchUserInfo = useCallback(async (token: string) => {
-    try {
-      const userInfo = await getMe(token);
-      setMe(userInfo);
-    } catch (error) {
-      console.error('사용자 정보 가져오기 실패:', error);
-      setMe(null);
-    }
-  }, []);
+  }, [fetchUserInfo]);
 
   // 로그인
   const logIn = useCallback(async (email: string, password: string) => {

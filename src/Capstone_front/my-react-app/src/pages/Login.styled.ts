@@ -84,25 +84,6 @@ export const Button = styled.button`
   }
 `;
 
-export const EasyLogin = styled.div`
-  text-align: center;
-  color: white;
-  font-size: 14px;
-  margin-bottom: 20px;
-`;
-
-export const EasyLoginButtons = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 8px;
-
-  img {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
-`;
 
 export const BottomBox = styled.div`
   display: flex;

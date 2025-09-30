@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ProductCard.styled";
-import { Movie, Product } from "../type/product";
+import { Product } from "../type/product";
 import { Spacer } from "../style/common.styled";
+import { getQualityLabel } from "../util/qualityMap";
 
 export default function ProductCard({ product }: { product: Product }) {
   const navigate = useNavigate();
@@ -11,12 +12,7 @@ export default function ProductCard({ product }: { product: Product }) {
     navigate(`/static/DetailPage/${product.movieId}`, { state: { product } });
   };
 
-  const qualityMap: Record<string, string> = {
-    U: "-",
-    B: "BluRay (1080, FHD)",
-    "3": "3D-BluRay",
-    "4": "4kBluRay (UHD)",
-  };
+  
 
   return (
     <S.CardSection>
@@ -29,10 +25,10 @@ export default function ProductCard({ product }: { product: Product }) {
           <S.Title>{product.blurayTitle}</S.Title>
           <S.Price>{product.price}원</S.Price>
           <Spacer h={20}/>
-          <S.Describe> 해상도 : {qualityMap[product.quality ?? ''] || product.quality}</S.Describe>
+          <S.Describe> 해상도 : {getQualityLabel(product.quality)}</S.Describe>
           <S.Describe> 지역 코드 : {product.regionCode ? product.regionCode : "-"}</S.Describe>
           {product.isLimitedEdition && (
-            <S.Describe>한정판!</S.Describe>
+            <S.Limited>한정판!</S.Limited>
           )}
         </S.InfoArea>
 

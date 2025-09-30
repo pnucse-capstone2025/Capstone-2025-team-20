@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login, signup, getMe } from "../api/auth";
+import { signup, getMe } from "../api/auth";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
@@ -17,9 +17,10 @@ export default function LoginPage() {
       await logIn(username, password);
       setStatus('✅ 로그인 성공');
       setOutput(JSON.stringify({ token, me }, null, 2));
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as { message?: string } | undefined;
       setStatus('❌ 로그인 실패');
-      setOutput(err?.message || String(err));
+      setOutput(error?.message || String(err));
     }
   };
 
@@ -30,9 +31,10 @@ export default function LoginPage() {
       const data = await signup(username, email, password);
       setStatus('✅ 회원가입 성공');
       setOutput(JSON.stringify(data, null, 2));
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: unknown } } | undefined;
       setStatus('❌ 회원가입 실패');
-      setOutput(err?.response?.data ? JSON.stringify(err.response.data, null, 2) : String(err));
+      setOutput(error?.response?.data ? JSON.stringify(error.response.data, null, 2) : String(err));
     }
   };
 
@@ -47,9 +49,10 @@ export default function LoginPage() {
       const data = await getMe(token);
       setStatus('✅ /me 성공');
       setOutput(JSON.stringify(data, null, 2));
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: unknown } } | undefined;
       setStatus('❌ /me 실패');
-      setOutput(err?.response?.data ? JSON.stringify(err.response.data, null, 2) : String(err));
+      setOutput(error?.response?.data ? JSON.stringify(error.response.data, null, 2) : String(err));
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import ProductSimpleList from "../components/ProductSimpleList";
 import { BackgroundPattern, BasicBase, EmptyBox, Footer, Spacer } from "../style/common.styled";
 import {

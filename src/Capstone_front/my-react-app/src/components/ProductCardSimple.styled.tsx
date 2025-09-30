@@ -1,27 +1,6 @@
 import styled from "styled-components";
-import { colors } from "../style/themes";
 
-export const ReasonTooltip = styled.div`
-  position: absolute;
-  top: -50px;
-  left: 0;
-  background: red;
-  color: white;
-  padding: 10px;
-  font-size: 14px;
-  z-index: 9999;
-  border: 2px solid blue;
-`;
-
-
-export const ReasonIcon = styled.span`
-  margin-right: 4px;
-  font-size: 14px;
-`;
-
-export const ReasonText = styled.span`
-  font-weight: 500;
-`;
+ 
 
 export const Info = styled.div`
   position: absolute;
@@ -110,6 +89,12 @@ export const Price = styled.span`
 export const Qualty = styled.span`
   font-size: 12px;
   color: #fff;
+`;
+
+export const Limited = styled.span`
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffd903;
 `;
 
 export const Mall = styled.span`

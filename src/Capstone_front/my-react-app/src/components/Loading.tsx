@@ -81,7 +81,6 @@ const Loading = ({
   // 기본 로딩
   return (
     <SpinnerWrapper>
-      {/*<Spinner />*/}
       <LoadingMessage>{message}</LoadingMessage>
       <LoadingDots>
         <Dot $delay={0} />

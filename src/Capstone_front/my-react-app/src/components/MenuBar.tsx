@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import searchIcon from '../resource/img/search.svg'
 import userIcon from '/img/user.svg'
 import menuIcon from '/img/menu.svg'
-import heartIcon from '/img/heart.svg'
 import {
     HeaderMenu, IconImg, NavBar, NavBarInsideSectionL, NavBarInsideSectionR,
     Title, SearchInput, SearchBoxWrapper, DropdownMenu, DropdownItem
@@ -39,8 +38,8 @@ const MenuBar = () => {
         try {
             await navigator.clipboard.writeText(email)
             showToast(`이메일 주소가 클립보드에 복사되었습니다`, 'success')
-        } catch (err) {
-            showToast(`버그 제보 이메일: ${email}`, 'info')
+        } catch (error) {
+            showToast(`${error}버그 제보 이메일: ${email}`, 'info')
         }
         setMenuOpen(false)
     }

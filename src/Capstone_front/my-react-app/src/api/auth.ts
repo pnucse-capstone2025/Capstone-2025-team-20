@@ -10,8 +10,12 @@ export const login = async (username: string, password: string) => {
       { headers: { 'Content-Type': 'application/json' } } // 명시적으로 JSON
     );
     return data;
-  } catch (err: any) {
-    console.error('로그인 에러:', err.response || err);
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      console.error('로그인 에러:', err.response ?? err.message);
+    } else {
+      console.error('로그인 에러:', err);
+    }
     throw err;
   }
 };
@@ -24,8 +28,12 @@ export const signup = async (username: string, email: string, password: string) 
       { headers: { 'Content-Type': 'application/json' } }
     );
     return data;
-  } catch (err: any) {
-    console.error('회원가입 에러:', err.response || err);
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      console.error('회원가입 에러:', err.response ?? err.message);
+    } else {
+      console.error('회원가입 에러:', err);
+    }
     throw err;
   }
 };
@@ -36,8 +44,12 @@ export const getMe = async (token: string) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
-  } catch (err: any) {
-    console.error('/me 조회 에러:', err.response || err);
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      console.error('/me 조회 에러:', err.response ?? err.message);
+    } else {
+      console.error('/me 조회 에러:', err);
+    }
     throw err;
   }
 };

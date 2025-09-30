@@ -241,7 +241,9 @@ export const ButtonSlidingWrapper = styled.div`
   padding: 10px;
   background-color: white;
   border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
   position: relative;
   overflow: hidden;
 
@@ -257,7 +259,7 @@ export const ButtonSlidingWrapper = styled.div`
   }
 
   &:hover {
-    box-shadow: 10px 10px 40px rgba(28, 118, 207, 0.09);
+
     transform: translateY(-2px);
     
     &::before {

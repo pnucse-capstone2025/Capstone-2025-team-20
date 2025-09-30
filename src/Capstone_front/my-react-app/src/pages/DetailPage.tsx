@@ -1,33 +1,29 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import * as S from "./DetailPage.styled";
 import { Product } from "../type/product";
-import { usegetMovie } from "../hook/useMovie";
+import { useGetMovie } from "../hook/useMovie";
 import { BasicBase, Footer, Spacer } from "../style/common.styled";
 import { useAuth } from "../context/AuthContext";
 import { useReviewsBySalesId, useSubmitReview } from "../hook/useReviews";
 import StarRating from "../components/StarRating";
+import { getQualityLabel } from "../util/qualityMap";
 
 export default function DetailPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const product: Product = location.state?.product;
-  const { parm } = useParams<{ parm: string }>();
-  const { token, me } = useAuth();
+  const { token } = useAuth();
 
-  if (!product) {
-    return <div>상품 정보를 불러올 수 없습니다.</div>;
-  }
-
-  const { data: movie } = usegetMovie(product.movieId ?? 0);
+  const hasProduct = !!product;
+  const { data: movie } = useGetMovie(product?.movieId ?? 0);
   
-  // 리뷰 관련 훅
-  const { data: reviews, isLoading: reviewsLoading } = useReviewsBySalesId(product.id);
+  const { data: reviews, isLoading: reviewsLoading } = useReviewsBySalesId(product?.id ?? 0);
   const submitReviewMutation = useSubmitReview();
 
-  // ⭐ 리뷰 작성 상태
   const [rating, setRating] = useState<number>(0);
   const [reviewMsg, setReviewMsg] = useState<string>("");
+
+  
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,6 +39,7 @@ export default function DetailPage() {
     }
 
     try {
+      if (!product) return;
       await submitReviewMutation.mutateAsync({
         review: {
           salesId: product.id,
@@ -73,38 +70,36 @@ export default function DetailPage() {
 
         <S.TopSection>
           <S.ImageContainer>
-            <S.Image src={product.imageLink ?? ""} />
+            {hasProduct && <S.Image src={product.imageLink ?? ""} />}
           </S.ImageContainer>
           <S.Info>
-            <S.Title>{product.blurayTitle}</S.Title>
-            <S.Title>{movie.title}</S.Title>
+            <S.Title>{hasProduct ? product.blurayTitle : ''}</S.Title>
+            <S.Title>{movie?.title ?? ''}</S.Title>
             <S.Prices>
-              <S.Price>{product.price}원</S.Price>
+              <S.Price>{hasProduct ? product.price : ''}원</S.Price>
             </S.Prices>
             <Spacer h={4}/>
-            <S.Mall onClick={() => window.open(String(product.siteUrl), "_blank")}>{product.siteName}</S.Mall>
+            {hasProduct && (
+              <S.Mall onClick={() => window.open(String(product.siteUrl), "_blank")}>{product.siteName}</S.Mall>
+            )}
           </S.Info>
         </S.TopSection>
 
         <S.Section>
           <h2>작품 상세정보</h2>
-          <S.Table>
+              <S.Table>
             <tbody>
               <tr>
-                <th>러닝타임</th>
-                <td>{movie.runningTime || "-"}</td>
-              </tr>
-              <tr>
-                <th>감독</th>
-                <td>{movie.director || "-"}</td>
+                <th>영화 출시일</th>
+                <td>{movie?.releaseDate || "-"}</td>
               </tr>
               <tr>
                 <th>해상도</th>
-                <td>{product.quality || "-"}</td>
+                <td>{hasProduct ? getQualityLabel(product.quality) : '-'}</td>
               </tr>
               <tr>
                 <th>지역코드</th>
-                <td>{product.regionCode || "-"}</td>
+                <td>{hasProduct ? product.regionCode : "-"}</td>
               </tr>
             </tbody>
           </S.Table>
@@ -113,7 +108,7 @@ export default function DetailPage() {
         <S.Section>
           <h2>리뷰</h2>
 
-                    {/* ⭐ 리뷰 작성 Form */}
+                    {/* 리뷰 작성 Form */}
           {token ? (
             <S.ReviewForm onSubmit={handleReviewSubmit}>
               <S.StarRatingContainer>
@@ -224,27 +219,6 @@ export default function DetailPage() {
             )}
           </S.Meta>
 
-        </S.Section>
-
-        {/* 외부 링크 */}
-        <S.Section>
-          <h2>외부 링크</h2>
-          <S.Meta>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <a className="button" href="#" target="_blank" rel="noopener noreferrer">
-                YES24
-              </a>
-              <a className="button" href="#" target="_blank" rel="noopener noreferrer">
-                Aladin
-              </a>
-              <a className="button" href="#" target="_blank" rel="noopener noreferrer">
-                Amazon JP
-              </a>
-              <a className="button" href="#" target="_blank" rel="noopener noreferrer">
-                공식 사이트
-              </a>
-            </div>
-          </S.Meta>
         </S.Section>
 
         </S.Container>

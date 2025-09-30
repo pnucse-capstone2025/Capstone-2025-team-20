@@ -1,5 +1,5 @@
 // src/hooks/useSales.ts
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery, useQuery } from "@tanstack/react-query";
 import { getSale, listSales, searchSales } from "../api/salesAPI";
 import { PopularMovie, Product } from "../type/product";
 import { getPopularMovies } from "../api/movieAPI";
@@ -19,10 +19,11 @@ export function useGetSale(id: number) {
 }
 
 export function useSearchSale(query: string) {
-  return useSuspenseQuery<Product[], Error>({
+  return useQuery<Product[], Error>({
     queryKey: ["SearchSale", query],
     queryFn: () => searchSales(query),
-    staleTime: 5 * 60 * 1000, 
+    enabled: query.trim().length > 0,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -40,7 +41,7 @@ export function usePopularSales(limit?: number) {
 }
 
 // 무한 스크롤을 위한 훅
-export function useInfinitePopularSales(initialLimit: number = 20) {
+export function useInfinitePopularSales(_initialLimit: number = 20) {
   return useSuspenseQuery<Product[], Error>({
     queryKey: ["InfinitePopularSales"],
     queryFn: async () => {

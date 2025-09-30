@@ -12,7 +12,6 @@ export interface ProductWithReason {
 // 추천 결과를 Product와 reason으로 변환하는 함수
 const convertRecommendationsToProducts = async (
   recommendations: RecommendationResponse,
-  token: string
 ): Promise<ProductWithReason[]> => {
   const results: ProductWithReason[] = [];
   
@@ -46,7 +45,7 @@ export function useInfiniteRecommendations(
       }
       
       const recommendations = await runRecommendations(userId, token, 5);
-      const productsWithReasons = await convertRecommendationsToProducts(recommendations, token);
+      const productsWithReasons = await convertRecommendationsToProducts(recommendations);
       
       return {
         recommendations,

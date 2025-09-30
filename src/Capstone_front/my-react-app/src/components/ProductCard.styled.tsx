@@ -69,6 +69,12 @@ export const Describe = styled.div`
   color: #555;
 `;
 
+export const Limited = styled.div`
+  font-size: 12px;
+  font-weight: 700;
+  color: #fae20a;
+`;
+
 export const Price = styled.span`
   font-size: 20px;
   font-weight: bold;
