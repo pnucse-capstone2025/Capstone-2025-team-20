@@ -60,15 +60,17 @@
 - **관리자 기능:** 데이터 임포트 및 추천 실행 관리
 
 ### 4.3 디렉토리 구조
-root
-  ├── frontend/ (React, Vite)
-  ├── dataset/ (추천알고리즘 및 데이터파일)
-  ├── example/ 
-    ├── spring-api/ (스프링 API)
-    └── static (정적 파일)
-    └── docker-compose.yml (도커 실행 파일)
-  ├── files
-  └── README.md
+```plaintext
+root  
+ ├── frontend/ (React, Vite)  
+ ├── dataset/ (추천알고리즘 및 데이터파일)  
+ ├── example/  
+   ├── spring-api/ (스프링 API)  
+   ├── static (정적 파일)  
+   └── docker-compose.yml (도커 실행 파일)  
+ ├── files  
+ └── README.md
+```
 
 
 ### 4.4 산업체 멘토링 의견 및 반영 사항
@@ -80,20 +82,17 @@ root
 
 ### 5.1 설치절차 및 실행 방법
 ```bash
-# 프론트엔드 실행
-npm install
-npm run dev
-
-# 백엔드 실행
-cd backen
-./mvnw spring-boot:run
-
-# 추천 모듈 실행
-cd py-reco
-python app.py
 
 # 전체 서비스 (Docker)
 docker-compose up -d --build
+
+#무비렌즈 데이터셋
+[ml-latest-small.zip](https://github.com/user-attachments/files/22620930/ml-latest-small.zip)
+해당 파일을 압축 해제해서 아래 위치에 넣기
+src/dataset
+
+# 접속 주소
+[localhost:static/](http://168.107.44.229:8081/static/)
 ```
 
 ### 5.2 오류 발생 시 해결 방법
@@ -111,7 +110,7 @@ docker-compose up -d --build
   - Nginx 설정에서 프록시 경로 확인
     ```nginx
     location /api/ {
-        proxy_pass http://backend:8080/;
+        proxy_pass http://spring-api:8080/api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
@@ -153,7 +152,6 @@ docker-compose up -d --build
 ---
 
 ## 8. 참고 문헌 및 출처
-- Bellman, R. Introduction to Matrix Analysis. McGraw-Hill, 1979.
-- Park, K. et al. "Analysis of Delay-Bandwidth Normalization..." Journal of KIISE, 2007.
+- Bellman, R. Introduction to Matrix Analysis. McGraw-Hill, 1970.
 - MovieLens Dataset
 - Yes24, Aladin, Kyobo Bookstore 블루레이 상품 페이지
