@@ -192,7 +192,7 @@ docker-compose up -d
 
 
 ### 6.2 시연 영상
-- [https://www.youtube.com/watch?v=MDDWl_jW8FQ]https://www.youtube.com/watch?v=MDDWl_jW8FQ
+- [2025 전기 졸업과제 20 라피스블루](https://www.youtube.com/watch?v=MDDWl_jW8FQ)
 
 ---
 
