@@ -87,13 +87,14 @@ root
 docker-compose up -d --build
 
 #무비렌즈 데이터셋
-[ml-latest-small.zip](https://github.com/user-attachments/files/22620930/ml-latest-small.zip)
+https://github.com/user-attachments/files/22620930/ml-latest-small.zip
 해당 파일을 압축 해제해서 아래 위치에 넣기
 src/dataset
 
 # 접속 주소
 [localhost:static/](http://168.107.44.229:8081/static/)
 ```
+[ml-latest-small.zip](https://github.com/user-attachments/files/22620930/ml-latest-small.zip)
 
 ### 5.2 오류 발생 시 해결 방법
 
